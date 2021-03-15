@@ -164,4 +164,5 @@ def mine_block():
         response = {'message': f'Transaction will be added to the block {index} Rejoice.'}
         return (jsonify(response), 201) 
 
-        
+if __name__ == '__main__': 
+    app.run(host='0.0.0.0', port=int(sys.argv[1]))
