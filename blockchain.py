@@ -48,15 +48,16 @@ class Blockchain(object):
 
     def valid_proof(self, index, hash_of_previous_block, transactions, nonce): 
 
-        #create a string containing the hash of the previous block and the block content, including the nonce. 
+        # create a string containing the hash of the previous block and the block content, including the nonce. 
         f'{index}{hash_of_previous_block}{transactions}{none}'.encode() 
+        
         #hash using sha256 
         content_hash = hashlib.sha256(content).hexdigest() 
 
-        #check if the hash meets the difficulty target 
+        # check if the hash meets the difficulty target 
         return content_hash[:len(self.difficulty_target)] == self.difficulty_target
 
-    # creates a new block and adds it to the blockchain 
+    #//? creates a new block and adds it to the blockchain 
     def append_block(self, nonce, hash_of_previous_block): 
         block = { 
             'index': len(self.chain),
@@ -72,5 +73,24 @@ class Blockchain(object):
         # add the new block to the blockchain 
         self.chain.append(block)
         return block 
+
+        #//* When the block is added to the blockchain, the current timestamp is also added to the block. 
+
+    #//? add_transaction: 
+    # This method adds a new transactions to the current list of transactions.
+    # it then gets the indexof the last block in the blockchain and adds one to it. 
+    # this new index will the block that the current transaction will be added to.  
+    def add_transaction(self, sender, recipient, amount): 
+        self.current_transactions.append({
+            'amount':amount,
+            'recipient': recipient, 
+            'sender': sender,
+        })
+        return self.last_block['index'] + 1 
+
+    @property 
+    def last_block(self): 
+        #//? returns the last block in the blockchain 
+        return self.chain[-1] 
 
         
