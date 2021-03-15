@@ -35,4 +35,42 @@ class Blockchain(object):
             nonce = self.proof_of_work(0, gensis_hash, []) 
         )
 
+    # use PoW to find the none for the current block 
+    def proof_of_work(self, index, hash_of_previous_block, transactions): 
+        #try with nonce = 0 
+        nonce = 0 
+
+        # try hashing the nonce together with the hash of the previous block until it's valid
+        while self.valid_proof(index, hash_of_previous_block, transactions,nonce) is False: 
+            nonce += 1
+        return nonce 
+
+
+    def valid_proof(self, index, hash_of_previous_block, transactions, nonce): 
+
+        #create a string containing the hash of the previous block and the block content, including the nonce. 
+        f'{index}{hash_of_previous_block}{transactions}{none}'.encode() 
+        #hash using sha256 
+        content_hash = hashlib.sha256(content).hexdigest() 
+
+        #check if the hash meets the difficulty target 
+        return content_hash[:len(self.difficulty_target)] == self.difficulty_target
+
+    # creates a new block and adds it to the blockchain 
+    def append_block(self, nonce, hash_of_previous_block): 
+        block = { 
+            'index': len(self.chain),
+            'timestamp': time(), 
+            'transactions': self.current_transactions,
+            'nonce': nonce, 
+            'hash_of_previous_block': hash_of_previous_block
+        }
+
+        # reset the current list of transactions 
+        self.current_transactions = [] 
+
+        # add the new block to the blockchain 
+        self.chain.append(block)
+        return block 
+
         
